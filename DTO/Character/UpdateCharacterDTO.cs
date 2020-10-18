@@ -1,8 +1,11 @@
-namespace API_Course.Models
+using API_Course.Models;
+
+namespace API_Course.DTO.Character
 {
-    public class Character
-    {
-        public int Id {get; set; }
+    public class UpdateCharacterDTO
+     {
+    
+         public int Id {get; set; }
 
         public string Name {get; set;} = "Frodo";
 

@@ -1,10 +1,10 @@
-namespace API_Course.Models
-{
-    public class Character
-    {
-        public int Id {get; set; }
+using API_Course.Models;
 
-        public string Name {get; set;} = "Frodo";
+namespace API_Course.DTO.Character
+{
+    public class AddCharacterDTO
+    {
+      public string Name {get; set;} = "Frodo";
 
         public int HitPoints {get; set; } = 100;
         
@@ -17,3 +17,4 @@ namespace API_Course.Models
          public rpgClass Class {get; set; } = rpgClass.Archer;
     }
 }
+    

@@ -5,9 +5,13 @@ using System.Linq;
 using API_Course.Services.CharacterService;
 using System.Threading.Tasks;
 using API_Course.DTO.Character;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System;
 
 namespace API_Course.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CharacterController : ControllerBase
@@ -24,13 +28,14 @@ namespace API_Course.Controllers
             new Character {Id = 1, Name = "Sam"}
 
          };
+        
         [HttpGet("GetAll")]
         public async Task <IActionResult> Get()
         {
-
-            return Ok(await _characterService.GetAllCharacters());
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            return Ok(await _characterService.GetAllCharacters(userId));
         }
-
+        
         [HttpGet("{id}")]
         public async Task <IActionResult> GetSingle(int id)
         {

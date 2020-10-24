@@ -8,7 +8,7 @@ namespace API_Course.Services.CharacterService
 {
     public interface ICharacterService
     {
-        Task <serviceResponse<List<GetCharacterDTO>>> GetAllCharacters();
+        Task <serviceResponse<List<GetCharacterDTO>>> GetAllCharacters(int userId);
 
         Task<serviceResponse<GetCharacterDTO>> GetCharacterById(int id);
 
@@ -17,5 +17,6 @@ namespace API_Course.Services.CharacterService
          Task<serviceResponse<GetCharacterDTO>> UpdateCharacter(UpdateCharacterDTO updateCharacter); 
     
         Task<serviceResponse<List<GetCharacterDTO>>> DeleteCharacter(int id);
+        Task<object> GetAllCharacters(object userId);
     }
 }

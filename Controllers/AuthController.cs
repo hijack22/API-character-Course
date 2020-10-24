@@ -3,6 +3,7 @@ using API_Course.Data;
 using API_Course.DTO.Character;
 using API_Course.Models;
 using Microsoft.AspNetCore.Mvc;
+using API_Course.Data;
 
 namespace API_Course.Controllers
 {

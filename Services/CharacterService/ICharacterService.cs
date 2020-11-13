@@ -8,7 +8,7 @@ namespace API_Course.Services.CharacterService
 {
     public interface ICharacterService
     {
-        Task <serviceResponse<List<GetCharacterDTO>>> GetAllCharacters(int userId);
+        Task <serviceResponse<List<GetCharacterDTO>>> GetAllCharacters();
 
         Task<serviceResponse<GetCharacterDTO>> GetCharacterById(int id);
 

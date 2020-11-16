@@ -111,7 +111,10 @@ namespace API_Course.Services.CharacterService
             serviceResponse<GetCharacterDTO> serviceResponse = new serviceResponse<GetCharacterDTO>();
             try
             {
-                Character character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == updateCharacter.Id);
+                Character character = await _context.Characters.Include(c => c.User).FirstOrDefaultAsync(c => c.Id == updateCharacter.Id);
+               
+                if(updateCharacter.Id == GetUserId())
+                {
                 character.Name = updateCharacter.Name;
                 character.Class = updateCharacter.Class;
                 character.Defense = updateCharacter.Defense;
@@ -122,6 +125,13 @@ namespace API_Course.Services.CharacterService
                 _context.Characters.Update(character);
                 await _context.SaveChangesAsync();
                 serviceResponse.Data = _mapper.Map<GetCharacterDTO>(character);
+                }
+                else {
+
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = "User not found";
+
+                }
 
             }
             catch (Exception ex)

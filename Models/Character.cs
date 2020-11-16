@@ -2,6 +2,7 @@ namespace API_Course.Models
 {
     public class Character
     {
+        //ss
         public int Id {get; set; }
 
         public string Name {get; set;} = "Frodo";

@@ -17,5 +17,7 @@ namespace API_Course.Models
          public rpgClass Class {get; set; } = rpgClass.Archer;
 
          public User User {get; set;}
+
+         public Weapons Weapons {get; set;}
     }
 }

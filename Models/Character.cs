@@ -1,5 +1,7 @@
 
 
+using System.Collections.Generic;
+
 namespace API_Course.Models
 {
     public class Character
@@ -23,8 +25,7 @@ namespace API_Course.Models
 
          public WeaponModel Weapon {get;set;}
 
-
-
+        public List<CharacterSkill> CharacterSkills { get; set; }
          
     }
 }

@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+using API_Course.DTO.Skills;
 using API_Course.DTO.Weapon;
 using API_Course.Models;
 
@@ -19,6 +21,8 @@ namespace API_Course.DTO.Character
          public rpgClass Class {get; set;} 
          
         public GetWeaponDTO Weapon {get; set;}
+
+        public List<GetSkillDTO> Skills {get; set;}
     }
 }
 

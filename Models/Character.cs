@@ -1,3 +1,5 @@
+
+
 namespace API_Course.Models
 {
     public class Character
@@ -19,6 +21,10 @@ namespace API_Course.Models
 
          public User User {get; set;}
 
-         public Weapons Weapons {get; set;}
+         public WeaponModel Weapon {get;set;}
+
+
+
+         
     }
 }

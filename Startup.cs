@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API_Course.Data;
 using API_Course.Services.CharacterService;
+using API_Course.Services.Weapons;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -40,7 +41,7 @@ namespace API_Course
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ICharacterService, CharacterService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
-            
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -54,7 +55,7 @@ namespace API_Course
 
                 };
             });
-            
+            services.AddScoped<IWeapons, Weapons>();
            
         }   
 

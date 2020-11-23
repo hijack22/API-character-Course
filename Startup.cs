@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using API_Course.Data;
 using API_Course.Services.CharacterService;
 using API_Course.Services.CharacterSkills;
+using API_Course.Services.FightService;
 using API_Course.Services.Weapons;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -58,6 +59,7 @@ namespace API_Course
             });
             services.AddScoped<IWeapons, Weapons>();
             services.AddScoped<ICharacterSkillService,CharacterSkillService>();
+            services.AddScoped<IFightService,FIghtService>();
            
         }   
 

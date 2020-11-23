@@ -1,7 +1,12 @@
+
+
+using System.Collections.Generic;
+
 namespace API_Course.Models
 {
     public class Character
     {
+        //ss
         public int Id {get; set; }
 
         public string Name {get; set;} = "Frodo";
@@ -18,6 +23,15 @@ namespace API_Course.Models
 
          public User User {get; set;}
 
-         public Weapons Weapons {get; set;}
+         public WeaponModel Weapon {get;set;}
+
+        public List<CharacterSkill> CharacterSkills { get; set; }
+
+        public int Fights { get; set; }
+
+        public int Defeats { get; set; }
+
+        public int Wins {get; set;}
+         
     }
 }

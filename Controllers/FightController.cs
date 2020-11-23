@@ -25,6 +25,18 @@ namespace API_Course.Controllers
         {
             return Ok(await _fightService.WeaponAttack(request));
         }
+
+        [HttpPost("SkillAttack")]
+         public async Task<IActionResult> SkillAttack(SkillAttackDTo request)
+        {
+            return Ok(await _fightService.skillAttack(request));
+        }
+
+         [HttpPost("Fight")]
+         public async Task<IActionResult> Fight(FightRequestDTO request)
+        {
+            return Ok(await _fightService.Fight(request));
+        }
    
     }
 }

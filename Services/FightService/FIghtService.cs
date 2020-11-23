@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API_Course.Data;
 using API_Course.DTO.Fight;
 using API_Course.Models;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_Course.Services.FightService
@@ -12,19 +13,21 @@ namespace API_Course.Services.FightService
     public class FIghtService : IFightService
     {
         private readonly DataContext _context;
-        public FIghtService(DataContext context)
+        private readonly IMapper _mapper;
+        public FIghtService(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
 
         }
 
-        public  async Task<serviceResponse<FightResultDTO>> Fight(FightRequestDTO request)
+        public async Task<serviceResponse<FightResultDTO>> Fight(FightRequestDTO request)
         {
             serviceResponse<FightResultDTO> response = new serviceResponse<FightResultDTO>
             {
                 Data = new FightResultDTO()
             };
-            
+
             try
             {
                 List<Character> Character =
@@ -33,11 +36,11 @@ namespace API_Course.Services.FightService
                 .Include(c => c.Weapon)
                 .Include(c => c.CharacterSkills).ThenInclude(c => c.Skill)
                 .Where(c => request.CharacterIds.Contains(c.Id)).ToListAsync();
-                
+
                 bool defeated = false;
-                while(!defeated)
+                while (!defeated)
                 {
-                    foreach(Character attacker in Character)
+                    foreach (Character attacker in Character)
                     {
                         List<Character> opponents = Character.Where(c => c.Id != attacker.Id).ToList();
                         Character opponent = opponents[new Random().Next(opponents.Count)];
@@ -47,20 +50,20 @@ namespace API_Course.Services.FightService
 
                         bool useWeapon = new Random().Next(2) == 0;
 
-                        if(useWeapon)
+                        if (useWeapon)
                         {
-                           attackUsed = attacker.Weapon.Name;
-                           damage = DoWeaponAttack(attacker, opponent);
+                            attackUsed = attacker.Weapon.Name;
+                            damage = DoWeaponAttack(attacker, opponent);
                         }
                         else
                         {
                             int randomSkill = new Random().Next(attacker.CharacterSkills.Count);
                             attackUsed = attacker.CharacterSkills[randomSkill].Skill.Name;
-                            damage = SkillAttack(attacker,  opponent, attacker.CharacterSkills[randomSkill]);
+                            damage = SkillAttack(attacker, opponent, attacker.CharacterSkills[randomSkill]);
                         }
-                            response.Data.Log.Add($"{attacker.Name} attacked {opponent.Name} with {attackUsed} with damage {(damage >=0 ? damage : 0)} damage.");
+                        response.Data.Log.Add($"{attacker.Name} attacked {opponent.Name} with {attackUsed} with damage {(damage >= 0 ? damage : 0)} damage.");
 
-                        if(opponent.HitPoints <= 0)
+                        if (opponent.HitPoints <= 0)
                         {
                             defeated = true;
                             attacker.Wins++;
@@ -70,23 +73,23 @@ namespace API_Course.Services.FightService
                         }
                     }
                 }
-            
-                Character.ForEach(c => 
+
+                Character.ForEach(c =>
                 {
-                    c.Fights++; 
+                    c.Fights++;
                     c.HitPoints = 100;
 
                 });
 
                 _context.Characters.UpdateRange(Character);
-                 await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
             }
             catch (Exception ex)
             {
                 response.Success = false;
                 response.Message = ex.Message;
-                
+
             }
 
             return response;
@@ -95,7 +98,7 @@ namespace API_Course.Services.FightService
         public async Task<serviceResponse<AttackResultDTo>> skillAttack(SkillAttackDTo request)
         {
             serviceResponse<AttackResultDTo> response = new serviceResponse<AttackResultDTo>();
-            
+
             try
             {
                 Character attacker = await _context.Characters
@@ -137,11 +140,11 @@ namespace API_Course.Services.FightService
                 };
             }
 
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 response.Success = false;
                 response.Message = ex.Message;
-                
+
             }
 
             return response;
@@ -199,7 +202,7 @@ namespace API_Course.Services.FightService
             {
                 response.Success = false;
                 response.Message = ex.Message;
-                
+
             }
 
             return response;
@@ -218,6 +221,21 @@ namespace API_Course.Services.FightService
 
             return damage;
         }
+
+        public async  Task<serviceResponse<List<HighScoreDTO>>> HighScore()
+        {
+            List<Character> characters = await _context.Characters
+            .Where(c => c.Fights > 0)
+            .OrderByDescending(c => c.Wins)
+            .ThenBy(c => c.Defeats)
+            .ToListAsync();
+
+            var response = new serviceResponse<List<HighScoreDTO>>
+            {
+                Data = characters.Select(c => _mapper.Map<HighScoreDTO>(c)).ToList()
+            };
+            
+            return response;
+        }
     }
 }
-    

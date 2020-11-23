@@ -38,5 +38,10 @@ namespace API_Course.Controllers
             return Ok(await _fightService.Fight(request));
         }
    
+         [HttpGet("HighScore")]
+         public async Task<IActionResult> HighScore()
+        {
+            return Ok(await _fightService.HighScore());
+        }
     }
 }

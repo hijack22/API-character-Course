@@ -1,5 +1,6 @@
 using System.Linq;
 using API_Course.DTO.Character;
+using API_Course.DTO.Fight;
 using API_Course.DTO.Skills;
 using API_Course.DTO.Weapon;
 using API_Course.Models;
@@ -22,6 +23,8 @@ namespace API_Course
             CreateMap<WeaponModel,GetWeaponDTO>();
 
             CreateMap<Skill,GetSkillDTO>();
+
+            CreateMap<Character,HighScoreDTO>();
         }
     }
 }
